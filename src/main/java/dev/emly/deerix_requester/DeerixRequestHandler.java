@@ -12,7 +12,7 @@ import com.moandjiezana.toml.TomlWriter;
 public class DeerixRequestHandler {
 
 	public static final DeerixRequestHandler REQUEST = new DeerixRequestHandler();
-	public static final File DEERIX_CONFIG_PATH = new File("/deerix_settings.toml");
+	public static final File DEERIX_CONFIG_PATH = new File("/config/deerix_settings.toml");
 	
 	private static final TomlWriter WRITER = new TomlWriter();
 
