@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Deerix Requester - Search</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<form action="/" method="get">
+		<label for="search">Search:</label><br>
+		<span th:if="${q != null}">
+			<input type="text" id="search" name="q" th:value="${q}">
+		</span>
+		<span th:unless="${q != null}">
+			<input type="text" id="search" name="q">
+		</span>
+		
+		<span th:if="${type == 'artist'}">
+			<input type="radio" id="artist" name="st" value="artist" checked>
+		</span>
+		<span th:unless="${type == 'artist'}">
+			<input type="radio" id="artist" name="st" value="artist">
+		</span>
+		<label for="artist">Artist</label>
+		
+		<span th:if="${type == 'album'}">
+			<input type="radio" id="album" name="st" value="album" checked>
+		</span>
+		<span th:unless="${type == 'album'}">
+			<input type="radio" id="album" name="st" value="album">
+		</span>
+		<label for="album">Album</label>
+		
+		<span th:if="${type == 'track'}">
+			<input type="radio" id="track" name="st" value="track" checked>
+		</span>
+		<span th:unless="${type == 'track'}">
+			<input type="radio" id="track" name="st" value="track">
+		</span>
+		<label for="track">Track</label>
+	
+		<input type="submit" value="Search">
+	</form>
+	
+	<span th:if="${results != null and type != null}">	
+		<h1>Search Results:</h1>
+		<h2 th:text="${q} + ' (' + ${type} + ')'" />
+		
+		<span th:if="${type == 'artist'}">
+			<tr th:each="artist: ${results}">
+				<img th:src="${artist.getPictureSmall()}" />
+			    <td th:text="${artist.getName()}" /> <a th:href="${artist.getLink()}">Info</a><br>
+				
+				<form action="/request" method="get">
+					<input type="hidden" name="st" value="artist">
+					<input type="hidden" name="q" th:value="${q}">
+					<input type="hidden" name="id" th:value="${artist.getId()}">
+					<span th:if="${artist.getId() == id}">
+						<input type="submit" value="Requested" disabled>
+					</span>
+					<span th:unless="${artist.getId() == id}">
+						<input type="submit" value="Request">
+					</span>
+				</form>
+			</tr>
+		</span>
+	
+		<span th:if="${type == 'album'}">
+			<tr th:each="album: ${results}">
+				<img th:src="${album.getCoverSmall()}" />
+			    <td th:text="${album.getTitle()}" /> - <td th:text="${album.getArtist().getName()}" /> <a th:href="${album.getLink()}">Info</a><br>
+				
+				<form action="/request" method="get">
+					<input type="hidden" name="st" value="album">
+					<input type="hidden" name="q" th:value="${q}">
+					<input type="hidden" name="id" th:value="${album.getId()}">
+					<input type="submit" value="Request">
+				</form>
+			</tr>
+		</span>
+	
+		<span th:if="${type == 'track'}">
+			<tr th:each="track: ${results}">
+				<img th:src="${track.getAlbum().getCoverSmall()}" />
+			    <td th:text="${track.getTitle()}" /> - <td th:text="${track.getArtist().getName()}" /> <a th:href="${track.getLink()}">Info</a><br>
+	
+				<form action="/request" method="get">
+					<input type="hidden" name="st" value="track">
+					<input type="hidden" name="q" th:value="${q}">
+					<input type="hidden" name="id" th:value="${track.getId()}">
+					<input type="submit" value="Request">
+				</form>
+			</tr>
+		</span>
+	</span>
+</body>
+</html>
