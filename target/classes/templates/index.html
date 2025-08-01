@@ -73,7 +73,12 @@
 					<input type="hidden" name="st" value="album">
 					<input type="hidden" name="q" th:value="${q}">
 					<input type="hidden" name="id" th:value="${album.getId()}">
-					<input type="submit" value="Request">
+					<span th:if="${album.getId() == id}">
+						<input type="submit" value="Requested" disabled>
+					</span>
+					<span th:unless="${album.getId() == id}">
+						<input type="submit" value="Request">
+					</span>
 				</form>
 			</tr>
 		</span>
@@ -87,7 +92,12 @@
 					<input type="hidden" name="st" value="track">
 					<input type="hidden" name="q" th:value="${q}">
 					<input type="hidden" name="id" th:value="${track.getId()}">
-					<input type="submit" value="Request">
+					<span th:if="${track.getId() == id}">
+						<input type="submit" value="Requested" disabled>
+					</span>
+					<span th:unless="${track.getId() == id}">
+						<input type="submit" value="Request">
+					</span>
 				</form>
 			</tr>
 		</span>
