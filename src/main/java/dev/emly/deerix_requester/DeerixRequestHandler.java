@@ -119,9 +119,10 @@ public class DeerixRequestHandler {
 
 		try {
 			WRITER.write(tomlMap, DEERIX_CONFIG_PATH);
-			Track track = DEEZER_API.track().getById(id).execute();
-			sendNotification(track.getAlbum().getCover(), "Track: " + track.getTitle());
-		} catch (IOException | DeezerException e) {
+			// TODO: track lookup by id requires auth
+//			Track track = DEEZER_API.track().getById(id).execute();
+//			sendNotification(track.getAlbum().getCover(), "Track: " + track.getTitle());
+		} catch (IOException /*| DeezerException*/ e) {
 			return false;
 		}
 		
