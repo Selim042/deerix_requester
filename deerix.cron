@@ -1,1 +1,1 @@
-*/15 * * * * /config/deerix_linux
+*/15 * * * * (cd /config ; /config/deerix_linux)
