@@ -8,4 +8,4 @@ services:
     volumes:
       - ./deerix_settings.toml:/deerix_settings.toml
     environment:
-      - DISCORD_WEBHOOK: "https://discord.com/api/webhooks/example/example"
+      - DISCORD_WEBHOOK="https://discord.com/api/webhooks/example/example"
