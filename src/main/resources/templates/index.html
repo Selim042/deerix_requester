@@ -3,9 +3,10 @@
 <head> 
     <title>Deerix Requester - Search</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-	<form action="/" method="get">
+	<form action="/" method="get" class="search-bar">
 		<label for="search">Search:</label><br>
 		<span th:if="${q != null}">
 			<input type="text" id="search" name="q" th:value="${q}">
@@ -45,24 +46,26 @@
 		<h1>Search Results:</h1>
 		<h2 th:text="${q} + ' (' + ${type} + ')'" />
 		
-		<span th:if="${type == 'artist'}">
+		<div class="results" th:if="${type == 'artist'}">
 			<tr th:each="artist: ${results}">
-				<img th:src="${artist.getPictureSmall()}" />
-			    <td th:text="${artist.getName()}" /> <a th:href="${artist.getLink()}">Info</a><br>
-				
-				<form action="/request" method="get">
-					<input type="hidden" name="st" value="artist">
-					<input type="hidden" name="q" th:value="${q}">
-					<input type="hidden" name="id" th:value="${artist.getId()}">
-					<span th:if="${artist.getId() == id}">
-						<input type="submit" value="Requested" disabled>
-					</span>
-					<span th:unless="${artist.getId() == id}">
-						<input type="submit" value="Request">
-					</span>
-				</form>
+				<div class="result">
+					<img th:src="${artist.getPictureSmall()}" />
+					<td th:text="${artist.getName()}" /> <a th:href="${artist.getLink()}">Info</a><br>
+
+					<form action="/request" method="get">
+						<input type="hidden" name="st" value="artist">
+						<input type="hidden" name="q" th:value="${q}">
+						<input type="hidden" name="id" th:value="${artist.getId()}">
+						<span th:if="${artist.getId() == id or #sets.contains(requested, artist.getId())}">
+							<input class="request-button" type="submit" value="Requested" disabled>
+						</span>
+						<span th:unless="${artist.getId() == id or #sets.contains(requested, artist.getId())}">
+							<input class="request-button" type="submit" value="Request">
+						</span>
+					</form>
+				</div>
 			</tr>
-		</span>
+		</div>
 	
 		<span th:if="${type == 'album'}">
 			<tr th:each="album: ${results}">
@@ -73,11 +76,11 @@
 					<input type="hidden" name="st" value="album">
 					<input type="hidden" name="q" th:value="${q}">
 					<input type="hidden" name="id" th:value="${album.getId()}">
-					<span th:if="${album.getId() == id}">
-						<input type="submit" value="Requested" disabled>
+					<span th:if="${album.getId() == id or #sets.contains(requested, album.getId())}">
+						<input class="request-button" type="submit" value="Requested" disabled>
 					</span>
-					<span th:unless="${album.getId() == id}">
-						<input type="submit" value="Request">
+					<span th:unless="${album.getId() == id or #sets.contains(requested, album.getId())}">
+						<input class="request-button" type="submit" value="Request">
 					</span>
 				</form>
 			</tr>
@@ -92,11 +95,11 @@
 					<input type="hidden" name="st" value="track">
 					<input type="hidden" name="q" th:value="${q}">
 					<input type="hidden" name="id" th:value="${track.getId()}">
-					<span th:if="${track.getId() == id}">
-						<input type="submit" value="Requested" disabled>
+					<span th:if="${track.getId() == id or #sets.contains(requested, track.getId())}">
+						<input class="request-button" type="submit" value="Requested" disabled>
 					</span>
-					<span th:unless="${track.getId() == id}">
-						<input type="submit" value="Request">
+					<span th:unless="${track.getId() == id or #sets.contains(requested, track.getId())}">
+						<input class="request-button" type="submit" value="Request">
 					</span>
 				</form>
 			</tr>

@@ -1,0 +1,25 @@
+.search-bar {
+    border-style: solid;
+    padding: 5px;
+    width: auto;
+}
+
+.result {
+    background-color: lightGray;
+    width: 200px;
+
+    border-style: solid;
+
+    padding: 5px;
+    margin: 10px;
+}
+
+.request-button {
+    background-color: green;
+    text-color: black;
+}
+
+.request-button:disabled {
+    background-color: gray;
+    text-color: black;
+}

@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import api.deezer.objects.data.DeezerData;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 @Controller
 public class FrontendController {
 
@@ -15,21 +19,26 @@ public class FrontendController {
 			Model model) {
 		if (q != null && st != null) {
 			DeezerData<?> searchResult = null;
+			Set<Integer> requested = Collections.emptySet();
 			switch (st) {
 			case "artist":
 				searchResult = DeezerSearchHandler.SEARCH.searchArtist(q);
+				requested = DeerixRequestHandler.REQUEST.getRequestedArtists();
 				break;
 			case "album":
 				searchResult = DeezerSearchHandler.SEARCH.searchAlbum(q);
+				requested = DeerixRequestHandler.REQUEST.getRequestedAlbums();
 				break;
 			case "track":
 				searchResult = DeezerSearchHandler.SEARCH.searchTrack(q);
+				requested = DeerixRequestHandler.REQUEST.getRequestedTracks();
 				break;
 			}
 			if (searchResult != null) {
 				model.addAttribute("q", q);
 				model.addAttribute("type", st);
 				model.addAttribute("results", searchResult.getData());
+				model.addAttribute("requested", requested);
 			}
 		}
 		return "index";
